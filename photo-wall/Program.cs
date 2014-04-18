@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 using CommandLine;
 
 namespace photo_wall
@@ -11,10 +12,17 @@ namespace photo_wall
         static void Main(string[] args)
         {
             var options = new Options();
-            if (CommandLine.Parser.Default.ParseArguments(args,options)) {
+            if (CommandLine.Parser.Default.ParseArguments(args, options))
+            {
                 Console.WriteLine("Debug is set to {0}!", options.Debug);
+
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new UserInterface());
             }
-            Console.ReadLine();
+            else {
+                throw new CommandLine.ParserException();
+            }
         }
     }
 }
