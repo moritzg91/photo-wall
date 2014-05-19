@@ -16,7 +16,7 @@ public class Auth extends Authenticator {
   public PasswordAuthentication getPasswordAuthentication() {
     String username, password;
     username = "moritz.gellner@gmail.com";
-    password = "hamburger sandwich!@";
+    password = "**********";
     System.out.println("authenticating. . ");
     return new PasswordAuthentication(username, password);
   }
