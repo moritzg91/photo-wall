@@ -40,6 +40,7 @@ void setup()
     Contact sender = new Contact("Moritz Gellner","moritz.gellner@gmail.com");
     sendMail(recipient,sender,"Test Message","This is a test!");
   }
+  
   context = new SimpleOpenNI(this);
   if(context.isInit() == false)
   {
@@ -85,7 +86,7 @@ void draw()
       stroke(userClr[ (userList[i] - 1) % userClr.length ] );
       drawSkeleton(userList[i]);
     }      
-     
+    
     // draw the center of mass
     if(context.getCoM(userList[i],com))
     {
@@ -184,7 +185,7 @@ void drawSkeleton(int userId)
   }
 }
 
-/*boolean isHold(long newTime){
+boolean isHold(long newTime){
  if (origTime == 0)
  {
    origTime = newTime;
@@ -197,7 +198,7 @@ void drawSkeleton(int userId)
  {
    return false; 
  }
-}*/
+}
 
 // -----------------------------------------------------------------
 // SimpleOpenNI events
