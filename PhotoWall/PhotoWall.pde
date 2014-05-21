@@ -30,6 +30,12 @@ int origTime = 0; //attempting to use this to determine if the hand is being hel
 
 Boolean mailSent = false;
 
+Integer handTimer;
+Integer handTimerThreshold = 3*30;
+
+Integer previousQuadrant = 0;
+Integer currentQuadrant = 0;
+
 void setup()
 {
   size(640,480);
@@ -57,7 +63,7 @@ void setup()
   minim = new Minim(this);
   song = minim.loadFile("ding.mp3");  
   
-  
+  frameRate(30);
   
 }
 
@@ -155,49 +161,70 @@ void drawSkeleton(int userId)
   //recognizing TOP LEFT picture
   if (leftHand.y < leftSh.y || (rightHand.x < torso.x && rightHand.y < leftSh.y))
   {  
+      currentQuadrant = 1;
+      if (currentQuadrant != previousQuadrant) {
+        handTimer = 0;
+      }
       fill(255, 0, 0);
       rect(40,40,40,40);
-      if (!mailSent) { //make sure mail is only sent once
+      if (!mailSent && handTimer > handTimerThreshold) { //make sure mail is only sent once
         mailSent = true;
         Contact recipient = new Contact("Moritz Gellner","moritzgellner2014@u.northwestern.edu");
         Contact sender = new Contact("Moritz Gellner","moritz.gellner@gmail.com");
         sendMail(recipient,sender,"Test Message","This is a test!");
+        handTimer = 0;
+      } else {
+        handTimer += 1;
       }
+      previousQuadrant = currentQuadrant;
   }
   //recognizing TOP RIGHT picture
   else if (rightHand.y < rightSh.y || (leftHand.x > torso.x && leftHand.y < rightSh.y))
   {
+    currentQuadrant = 2;
     fill(255, 0, 0);
     rect(600,40,40,40);
+    //...
+    previousQuadrant = currentQuadrant;
   }
   //recognizing BOTTOM LEFT picture -- want between bottom of elbow and top of hip
   else if ((leftHand.y < leftHip.y && leftHand.y > leftEl.y) || (rightHand.x < torso.x && rightHand.y < leftHip.y && rightHand.y > leftEl.y))
   {
+    currentQuadrant = 3;
     fill(255, 0, 0);
     rect(40,400,40,40);
+    //...
+    previousQuadrant = currentQuadrant;
   }
   //recognizing BOTTOM RIGHT picture
   else if ((rightHand.y < rightHip.y && rightHand.y > rightEl.y) || (leftHand.x < torso.x && leftHand.y < rightHip.y && leftHand.y > rightEl.y))
   {
+    currentQuadrant = 4;
     fill(255, 0, 0);
     rect(600,400,40,40);
+    //...
+    previousQuadrant = currentQuadrant;
+  } else {
+    handTimer = 0;
+    currentQuadrant = 0;
+    previousQuadrant = 0;
   }
 }
 
-boolean isHold(long newTime){
- if (origTime == 0)
- {
-   origTime = newTime;
-   return false;
- } else if (newTime > origTime+3)
- {
-   origTime = 0;
-   return true;
- } else
- {
-   return false; 
- }
-}
+//boolean isHold(long newTime){
+// if (origTime == 0)
+// {
+//   origTime = newTime;
+//   return false;
+// } else if (newTime > origTime+3)
+// {
+//   origTime = 0;
+//   return true;
+// } else
+// {
+//   return false; 
+// }
+//}
 
 // -----------------------------------------------------------------
 // SimpleOpenNI events
