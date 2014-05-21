@@ -11,6 +11,7 @@
 
 import SimpleOpenNI.*;
 import ddf.minim.*;
+import java.lang.*;
 
 Minim minim;
 AudioPlayer song;
@@ -24,7 +25,8 @@ color[]       userClr = new color[]{ color(255,0,0),
                                      color(0,255,255)
                                    };
 PVector com = new PVector();                                  
-PVector com2d = new PVector();                                  
+PVector com2d = new PVector(); 
+int origTime = 0; //attempting to use this to determine if the hand is being held for more than 3 seconds in a quadrant
 
 void setup()
 {
@@ -48,10 +50,12 @@ void setup()
 
   stroke(0,0,255);
   strokeWeight(3);
-  smooth();  
-  
+  smooth();
+
   minim = new Minim(this);
-  song = minim.loadFile("song.mp3");
+  song = minim.loadFile("ding.mp3");  
+  
+  
   
 }
 
@@ -99,36 +103,93 @@ void drawSkeleton(int userId)
 {
   // to get the 3d joint data
    
-  PVector leftPos = new PVector();
-  context.getJointPositionSkeleton(userId,SimpleOpenNI.SKEL_LEFT_HAND,leftPos);
-  println("left hand x: " +leftPos.x+"      left hand y: "+leftPos.y);
+  PVector leftHand = new PVector();
+  PVector rightHand = new PVector();
+  PVector rightSh = new PVector();
+  PVector leftSh = new PVector();
+  PVector torso = new PVector();
+  PVector rightHip = new PVector();
+  PVector leftHip = new PVector();
+  PVector rightEl = new PVector();
+  PVector leftEl = new PVector();
   
-  PVector rightPos = new PVector();
-  context.getJointPositionSkeleton(userId,SimpleOpenNI.SKEL_RIGHT_HAND,rightPos);
-  println("right hand x: " +rightPos.x+"      right hand y: "+rightPos.y);
- 
- 
-  /*context.drawLimb(userId, SimpleOpenNI.SKEL_HEAD, SimpleOpenNI.SKEL_NECK);
-
-  context.drawLimb(userId, SimpleOpenNI.SKEL_NECK, SimpleOpenNI.SKEL_LEFT_SHOULDER);
-  context.drawLimb(userId, SimpleOpenNI.SKEL_LEFT_SHOULDER, SimpleOpenNI.SKEL_LEFT_ELBOW);
-  context.drawLimb(userId, SimpleOpenNI.SKEL_LEFT_ELBOW, SimpleOpenNI.SKEL_LEFT_HAND);
-
-  context.drawLimb(userId, SimpleOpenNI.SKEL_NECK, SimpleOpenNI.SKEL_RIGHT_SHOULDER);
-  context.drawLimb(userId, SimpleOpenNI.SKEL_RIGHT_SHOULDER, SimpleOpenNI.SKEL_RIGHT_ELBOW);
-  context.drawLimb(userId, SimpleOpenNI.SKEL_RIGHT_ELBOW, SimpleOpenNI.SKEL_RIGHT_HAND);
-
-  context.drawLimb(userId, SimpleOpenNI.SKEL_LEFT_SHOULDER, SimpleOpenNI.SKEL_TORSO);
-  context.drawLimb(userId, SimpleOpenNI.SKEL_RIGHT_SHOULDER, SimpleOpenNI.SKEL_TORSO);
-
-  context.drawLimb(userId, SimpleOpenNI.SKEL_TORSO, SimpleOpenNI.SKEL_LEFT_HIP);
-  context.drawLimb(userId, SimpleOpenNI.SKEL_LEFT_HIP, SimpleOpenNI.SKEL_LEFT_KNEE);
-  context.drawLimb(userId, SimpleOpenNI.SKEL_LEFT_KNEE, SimpleOpenNI.SKEL_LEFT_FOOT);
-
-  context.drawLimb(userId, SimpleOpenNI.SKEL_TORSO, SimpleOpenNI.SKEL_RIGHT_HIP);
-  context.drawLimb(userId, SimpleOpenNI.SKEL_RIGHT_HIP, SimpleOpenNI.SKEL_RIGHT_KNEE);
-  context.drawLimb(userId, SimpleOpenNI.SKEL_RIGHT_KNEE, SimpleOpenNI.SKEL_RIGHT_FOOT);  */
+  
+  context.getJointPositionSkeleton(userId,SimpleOpenNI.SKEL_LEFT_HAND,leftHand);
+  context.convertRealWorldToProjective(leftHand, leftHand);
+  
+  context.getJointPositionSkeleton(userId,SimpleOpenNI.SKEL_RIGHT_HAND,rightHand);
+  context.convertRealWorldToProjective(rightHand, rightHand);
+  
+  context.getJointPositionSkeleton(userId,SimpleOpenNI.SKEL_RIGHT_SHOULDER,rightSh);
+  context.convertRealWorldToProjective(rightSh, rightSh);
+  
+  context.getJointPositionSkeleton(userId,SimpleOpenNI.SKEL_LEFT_SHOULDER,leftSh);
+  context.convertRealWorldToProjective(leftSh, leftSh);
+  
+  context.getJointPositionSkeleton(userId,SimpleOpenNI.SKEL_TORSO,torso);
+  context.convertRealWorldToProjective(torso, torso);
+  
+  context.getJointPositionSkeleton(userId,SimpleOpenNI.SKEL_RIGHT_HIP,rightHip);
+  context.convertRealWorldToProjective(rightHip, rightHip);
+  
+  context.getJointPositionSkeleton(userId,SimpleOpenNI.SKEL_LEFT_HIP,leftHip);
+  context.convertRealWorldToProjective(leftHip, leftHip);
+  
+  context.getJointPositionSkeleton(userId,SimpleOpenNI.SKEL_RIGHT_ELBOW,rightEl);
+  context.convertRealWorldToProjective(rightEl, rightEl);
+  
+  context.getJointPositionSkeleton(userId,SimpleOpenNI.SKEL_LEFT_ELBOW,leftEl);
+  context.convertRealWorldToProjective(leftEl, leftEl);
+  
+  fill(0,0,255);
+  ellipse(leftHand.x,leftHand.y, 30, 30);
+  //println("left hand x: " +leftHand.x+"      left hand y: "+leftHand.y);
+  
+  fill(0,0,255);
+  ellipse(rightHand.x,rightHand.y, 30, 30);
+  //println("right hand x: " +rightHand.x+"      right hand y: "+rightHand.y);
+  
+  
+  //recognizing TOP LEFT picture
+  if (leftHand.y < leftSh.y || (rightHand.x < torso.x && rightHand.y < leftSh.y))
+  {  
+      fill(255, 0, 0);
+      rect(40,40,40,40);
+  }
+  //recognizing TOP RIGHT picture
+  else if (rightHand.y < rightSh.y || (leftHand.x > torso.x && leftHand.y < rightSh.y))
+  {
+    fill(255, 0, 0);
+    rect(600,40,40,40);
+  }
+  //recognizing BOTTOM LEFT picture -- want between bottom of elbow and top of hip
+  else if ((leftHand.y < leftHip.y && leftHand.y > leftEl.y) || (rightHand.x < torso.x && rightHand.y < leftHip.y && rightHand.y > leftEl.y))
+  {
+    fill(255, 0, 0);
+    rect(40,400,40,40);
+  }
+  //recognizing BOTTOM RIGHT picture
+  else if ((rightHand.y < rightHip.y && rightHand.y > rightEl.y) || (leftHand.x < torso.x && leftHand.y < rightHip.y && leftHand.y > rightEl.y))
+  {
+    fill(255, 0, 0);
+    rect(600,400,40,40);
+  }
 }
+
+/*boolean isHold(long newTime){
+ if (origTime == 0)
+ {
+   origTime = newTime;
+   return false;
+ } else if (newTime > origTime+3)
+ {
+   origTime = 0;
+   return true;
+ } else
+ {
+   return false; 
+ }
+}*/
 
 // -----------------------------------------------------------------
 // SimpleOpenNI events
@@ -139,7 +200,7 @@ void onNewUser(SimpleOpenNI curContext, int userId)
   
   println("onNewUser - userId: " + userId);
   println("\tstart tracking skeleton");
-  song.play();
+  //song.play();
  
   curContext.startTrackingSkeleton(userId);
 }
@@ -148,25 +209,17 @@ void onLostUser(SimpleOpenNI curContext, int userId)
 {
   println("onLostUser - userId: " + userId);
   song.close();
+  minim.stop();
+  //super.stop();
 }
 
 void onVisibleUser(SimpleOpenNI curContext, int userId)
 {
+  
   song.play();
   //println("onVisibleUser - userId: " + userId);
   
 }
-
-
-void keyPressed()
-{
-  switch(key)
-  {
-  case ' ':
-    context.setMirror(!context.mirror());
-    break;
-  }
-}  
 
 /*void stop()
 {
