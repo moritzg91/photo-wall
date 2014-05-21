@@ -13,9 +13,6 @@ import SimpleOpenNI.*;
 import ddf.minim.*;
 import java.lang.*;
 
-Minim minim;
-AudioPlayer song;
-
 SimpleOpenNI  context;
 color[]       userClr = new color[]{ color(255,0,0),
                                      color(0,255,0),
@@ -59,9 +56,6 @@ void setup()
   stroke(0,0,255);
   strokeWeight(3);
   smooth();
-
-  minim = new Minim(this);
-  song = minim.loadFile("ding.mp3");  
   
   frameRate(30);
   
@@ -164,51 +158,75 @@ void drawSkeleton(int userId)
       currentQuadrant = 1;
       if (currentQuadrant != previousQuadrant) {
         handTimer = 0;
+        mailSent = false;
       }
+      Contact recipient = new Contact("Moritz Gellner 1","moritzgellner2014@u.northwestern.edu");
+      
       fill(255, 0, 0);
       rect(40,40,40,40);
-      if (!mailSent && handTimer > handTimerThreshold) { //make sure mail is only sent once
-        mailSent = true;
-        Contact recipient = new Contact("Moritz Gellner","moritzgellner2014@u.northwestern.edu");
-        Contact sender = new Contact("Moritz Gellner","moritz.gellner@gmail.com");
-        sendMail(recipient,sender,"Test Message","This is a test!");
-        handTimer = 0;
-      } else {
-        handTimer += 1;
-      }
+      
+      checkSendMail(recipient);
+      
       previousQuadrant = currentQuadrant;
   }
   //recognizing TOP RIGHT picture
   else if (rightHand.y < rightSh.y || (leftHand.x > torso.x && leftHand.y < rightSh.y))
   {
     currentQuadrant = 2;
+      if (currentQuadrant != previousQuadrant) {
+        handTimer = 0;
+        mailSent = false;
+      }
+      Contact recipient = new Contact("Robin Brewer 1","rnbrewer@u.northwestern.edu");
+      
     fill(255, 0, 0);
     rect(600,40,40,40);
-    //...
+    checkSendMail(recipient);
     previousQuadrant = currentQuadrant;
   }
   //recognizing BOTTOM LEFT picture -- want between bottom of elbow and top of hip
   else if ((leftHand.y < leftHip.y && leftHand.y > leftEl.y) || (rightHand.x < torso.x && rightHand.y < leftHip.y && rightHand.y > leftEl.y))
   {
     currentQuadrant = 3;
+      if (currentQuadrant != previousQuadrant) {
+        handTimer = 0;
+        mailSent = false;
+      }
+      Contact recipient = new Contact("Robin Brewer 2","robinbrewer10@gmail.com");
     fill(255, 0, 0);
     rect(40,400,40,40);
-    //...
+    checkSendMail(recipient);
     previousQuadrant = currentQuadrant;
   }
   //recognizing BOTTOM RIGHT picture
   else if ((rightHand.y < rightHip.y && rightHand.y > rightEl.y) || (leftHand.x < torso.x && leftHand.y < rightHip.y && leftHand.y > rightEl.y))
   {
     currentQuadrant = 4;
+      if (currentQuadrant != previousQuadrant) {
+        handTimer = 0;
+        mailSent = false;
+      }
+      Contact recipient = new Contact("Moritz Gellner 2","moritz.gellner@gmail.com");
     fill(255, 0, 0);
     rect(600,400,40,40);
-    //...
+    checkSendMail(recipient);
     previousQuadrant = currentQuadrant;
   } else {
     handTimer = 0;
     currentQuadrant = 0;
     previousQuadrant = 0;
   }
+}
+
+void checkSendMail(Contact recipient) {
+      if (!mailSent && handTimer > handTimerThreshold) { //make sure mail is only sent once
+        mailSent = true;
+        Contact sender = new Contact("Moritz Gellner","moritz.gellner@gmail.com");
+        sendMail(recipient,sender,"Test Message","This is a test!");
+        handTimer = 0;
+      } else {
+        handTimer += 1;
+      }
 }
 
 //boolean isHold(long newTime){

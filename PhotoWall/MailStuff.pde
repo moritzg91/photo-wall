@@ -4,7 +4,11 @@
 // Example functions that check mail (pop3) and send mail (smtp)
 // You can also do imap, but that's not included here
 import javax.mail.*;
+import ddf.minim.*;
 import java.util.Properties;
+
+Minim minim;
+AudioPlayer song;
 
 // A function to send mail
 void sendMail(Contact recipient,Contact sender,String subject, String body) {
@@ -41,6 +45,9 @@ void sendMail(Contact recipient,Contact sender,String subject, String body) {
     // We can do more here, set the date, the headers, etc.
     Transport.send(message);
     println("Mail sent!");
+    minim = new Minim(this);
+    song = minim.loadFile("ding.mp3");
+    song.play();
   }
   catch(Exception e)
   {
