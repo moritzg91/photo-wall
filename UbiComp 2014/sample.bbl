@@ -1,0 +1,48 @@
+\begin{thebibliography}{1}
+
+\bibitem{Corsten2013}
+Corsten, C., Avellino, I., M\"{o}llers, M., and Borchers, J.
+\newblock {Instant User Interfaces: Repurposing Everyday Objects as Input
+  Devices}.
+\newblock In {\em Proceedings of the 2013 ACM international conference on
+  Interactive tabletops and surfaces - ITS '13} (2013), 71--80.
+
+\bibitem{Harrison2010}
+Harrison, C., Tan, D., and Morris, D.
+\newblock {Skinput: Appropriating the Body as an Input Surface}.
+\newblock In {\em ACM SIGCHI}, vol.~3 (2010), 453--462.
+
+\bibitem{Lightbeam2012}
+Huber, J., Steimle, J., Liao, C., Liu, Q., and M\"{u}hlh\"{a}user, M.
+\newblock Lightbeam: Interacting with augmented real-world objects in pico
+  projections.
+\newblock In {\em Proceedings of the 11th International Conference on Mobile
+  and Ubiquitous Multimedia}, MUM '12, ACM (New York, NY, USA, 2012),
+  16:1--16:10.
+
+\bibitem{Swan2008}
+Swan, L., and Taylor, A.~S.
+\newblock {Photo displays in the home}.
+\newblock In {\em DIS '08} (2008), 261--270.
+
+\bibitem{Wilson2010}
+Wilson, A.~D., and Benko, H.
+\newblock {Combining multiple depth cameras and projectors for interactions on,
+  above and between surfaces}.
+\newblock {\em Proceedings of the 23nd annual ACM symposium on User interface
+  software and technology - UIST '10\/} (2010), 273.
+
+\bibitem{Yang2012}
+Yang, X.-D., Grossman, T., Wigdor, D., and Fitzmaurice, G.
+\newblock {Magic Finger: Always-Available Input through Finger
+  Instrumentation}.
+\newblock In {\em Proceedings of the 25th annual ACM symposium on User
+  interface software and technology - UIST '12} (2012), 147--156.
+
+\bibitem{Pew2012}
+Zickuhr, K., and Madden, M.
+\newblock {Older Adults and Internet Use}.
+\newblock
+  http://pewinternet.org/Reports/2012/Older-adults-and-internet-use.aspx, 2012.
+
+\end{thebibliography}

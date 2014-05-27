@@ -1,0 +1,141 @@
+\documentclass{chi-ext}
+% Please be sure that you have the dependencies (i.e., additional LaTeX packages) to compile this example.
+% See http://personales.upv.es/luileito/chiext/
+
+%% EXAMPLE BEGIN -- HOW TO OVERRIDE THE DEFAULT COPYRIGHT STRIP -- (July 22, 2013 - Paul Baumann)
+% \copyrightinfo{Permission to make digital or hard copies of all or part of this work for personal or classroom use is granted without fee provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page. Copyrights for components of this work owned by others than ACM must be honored. Abstracting with credit is permitted. To copy otherwise, or republish, to post on servers or to redistribute to lists, requires prior specific permission and/or a fee. Request permissions from permissions@acm.org. \\
+% {\emph{CHI'14}}, April 26--May 1, 2014, Toronto, Canada. \\
+% Copyright \copyright~2014 ACM ISBN/14/04...\$15.00. \\
+% DOI string from ACM form confirmation}
+%% EXAMPLE END -- HOW TO OVERRIDE THE DEFAULT COPYRIGHT STRIP -- (July 22, 2013 - Paul Baumann)
+
+\title{Portrait Pigeon: An Interactive Photo Messaging Wall for Seniors}
+
+\numberofauthors{3}
+% Notice how author names are alternately typesetted to appear ordered in 2-column format;
+% i.e., the first 4 autors on the first column and the other 4 auhors on the second column.
+% Actually, it's up to you to strictly adhere to this author notation.
+\author{
+  \alignauthor{
+  	\textbf{Robin Brewer}\\
+  	\affaddr{Northwestern University}\\
+  	\affaddr{2240 Campus Drive}\\
+  	\affaddr{Evanston, IL 60208 USA}\\
+  	\email{rnbrewer@u.northwestern.edu}
+  }
+  \vfil
+  \alignauthor{
+  	\textbf{Moritz Gellner}\\
+  	\affaddr{Northwestern University}\\
+  	\affaddr{2240 Campus Drive}\\
+  	\affaddr{Evanston, IL 60208 USA}\\
+  	\email{moritzgellner2014@u.northwestern.edu}
+  }
+  \vfil
+  \alignauthor{
+  	\textbf{Anne Marie Piper}\\
+  	\affaddr{Northwestern University}\\
+  	\affaddr{2240 Campus Drive}\\
+  	\affaddr{Evanston, IL 60208 USA}\\
+  	\email{ampiper@northwestern.edu}
+  }
+}
+
+% Paper metadata (use plain text, for PDF inclusion and later re-using, if desired)
+\def\plaintitle{Portrait Pigeon An Interactive Photo Messaging Wall for Seniors}
+\def\plainauthor{Robin Brewer}
+\def\plainkeywords{Older adults, gestures, interactive wall, lightweight communication}
+\def\plaingeneralterms{Design, Human Factors}
+
+\hypersetup{
+  % Your metadata go here
+  pdftitle={\plaintitle},
+  pdfauthor={\plainauthor},  
+  pdfkeywords={\plainkeywords},
+  pdfsubject={\plaingeneralterms},
+  % Quick access to color overriding:
+  %citecolor=black,
+  %linkcolor=black,
+  %menucolor=black,
+  %urlcolor=black,
+}
+
+\usepackage{graphicx}   % for EPS use the graphics package instead
+\usepackage{balance}    % useful for balancing the last columns
+\usepackage{bibspacing} % save vertical space in references
+
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Older adults with vision impairments have difficulty navigating complex graphical interfaces for communication such as e-mail platforms and social networking sites. Further, older adults with mobility impairments experience difficulty physically getting to a computer just to access such digital communication platforms. While efforts have been made to simplify the aesthetics of the interfaces, these solutions are not exploring challenges such as mobility and accessibility of the overall experience. We have designed Portrait Pigeon, a system that embeds communication into familiar environments of older adults focusing on their preference for displaying photos. We describe how a highly-customizable interactive photo wall was designed using depth-sensing technology and provide example applications for future exploration.
+\end{abstract}
+
+\keywords{\plainkeywords}
+
+\category{H.5.m}{Information interfaces and presentation (e.g., HCI)}{Miscellaneous}. 
+
+\terms{\plaingeneralterms}
+
+
+% =============================================================================
+\section{Introduction}
+% =============================================================================
+Technology is often designed for mainstream users meaning other populations such as older adults have to adapt and learn something new, or be excluded. Ubiquitous computing becomes a rich design area which allows older adults to interact with technology by embedding computers in their daily environment and routines. Because this population values both keeping in touch and storing non-digital photographs, we describe the design of an interactive photo wall for seniors that allows them to send lightweight text and voice messages. 
+
+Our research extends upon work using pictures and everyday objects for communication through interactive displays. A case study of older adult households has demonstrated that they value storing and displaying photos \cite{Swan2008}. One key observation was the semi-permanent display of photos on walls, meaning pictures are not moved often once a display space is found for them. We leverage the permanency of photo locations for our photo wall, but also provide a simple interface for simple modifications.
+
+Not only can one object such as a picture frame be manipulated for interaction, but researchers have explored the re-purposing of any object for input using instant calibration \cite{Corsten2013}. While this is convenient, users must train the program with repeated trials. Existing examples of interactive environments and surfaces using gesture interaction include LightBeam \cite{Lightbeam2012}, LightSpace \cite{Wilson2010}, Skinput \cite{Harrison2010}, and Magic Finger \cite{Yang2012}. We extend re-purposing of objects by focusing on the use of photo frames for email messaging through text and voice. Also, we simplify the training of the interactive environment through a simple interface where seniors map locations of their natural environment to the e-mail address of the person in the picture frame. This paper continues by describing how 1) the system was implemented and how it can be customized to address individual needs of users, 2) different modes of lightweight messaging, and 3) different feedback mechanisms. We conclude with current and future use cases for the system. 
+
+
+% =============================================================================
+\section{Portrait Pigeon}
+% =============================================================================
+We developed a prototype of Portrait Pigeon as shown in [Figure..]. [insert picture of example display] Below we describe the features of the system and how they can be easily customized for individual users depending on their level of ability and comfort.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.4\textwidth]{photo-chair.JPG}
+	\caption{Setup of Portrait Pigeon}
+\end{figure}
+
+\subsection{Gesture Recognition}
+The prototype uses a Microsoft Kinect depth-sensing camera, the SimpleOpenNI library, and Processing to program the Kinect (Fig 1.) The camera detects gestures targeted towards photos on a coordinate system relative to each user. For example, if a picture on a quadrant coordinate system is in the top left quadrant, a gesture is recognized when a hand (right or left) is placed above the left elbow. This is particularly important for older adults with limited range of motion because they may not be able to fully extend towards photos positioned at extreme ends of the wall. The relative positioning and recognition of gestures can be customized for individual older adults. For example, lower quadrant recognition can be changed from \textit{below the hip} to \textit{below the waist}.
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.4\textwidth]{portrait_pigeon_impl_diagram.png}
+    \caption{Implementation diagram depicting how Processing and SimpleOpenNI were used to develop Portrait Pigeon}
+\end{figure}
+
+The Kinect is positioned on the same wall as the photos, facing the user [reference picture in the 1st paragraph of this section]. This positioning was favored over the Kinect facing the photos to allow gesture recognition of a photo directly in front of the user, without the need of multiple depth-sensors. 
+
+\subsection{Set-up}
+Another key feature of the system is its simple setup. In order to know where the photos are located, Portrait Pigeon  must first obtain a picture of the environment. Prior to sending the first message, users must upload a picture of their photo wall and tag people in the photos. [insert picture of GUI, index.html with a picture in the grid part] If there is more than one person in the photo, it is up to the user to define which person they would want to send a message to. Also if a picture is moved, the system allows for easy re-uploading of the wall setup. This can also be extended to pictures in frames and not on walls as long as the frames are on the same side of the wall as the Kinect. While we recognize this may be a limitation for older adults without a digital camera or cell phone, additional depth-sensors would allow us to replace this manual setup with an automatic setup, where a second Kinect would capture the location and content of pictures on the photo wall. Furthermore, computer vision could be used to implement automatic facial recognition so that Portrait Pigeon could automatically associate the framed pictures with stored contact information. This would reduce its reliance on such a rigid coordinate system in which pictures can be placed; instead, contacts could be mapped to arbitrary and more precise spatial areas.
+
+\subsection{Sending a Message}
+% -----------------------------------------------------------------------------
+Through Portrait Pigeon, seniors can send email messages to family and friends. These messages can either be in text or voice format. Currently we explore lightweight pre-created text email messages that are sent when a user gestures towards that person's picture on their wall. Such messages let the person in the portrait know that their loved one is thinking of them. For more customized input, the system could use Kinect's built-in microphone to record a voice message. The voice message could be emailed directly or use speech-to-text technology to send a text email message. Here we focus on email because it is the communication platform that most seniors are currently using \cite{Pew2012}. However the existing reliance on text and computer access could pose challenges to people with low vision or mobility impairments. Not only does Portrait Pigeon help seniors with physical impairments and low vision, but also cognitive impairments because they wouldn't need to remember the complex processes of accessing email. We posit that Portrait Pigeon is easy to learn because it mimics the innate social interaction of acknowledging someone (gesturing) and communicating with them (sending a message). 
+
+
+% =============================================================================
+\section{Feedback}
+% =============================================================================
+Audio is played to inform the user that an email message has been sent. For older adults who may have hearing impairments, audio feedback could be supplemented with visual feedback from a small short-range projector facing the photo display \cite{Wilson2010}. [insert something about viewing position of hand w/coordinate system either here or in an above paragraph]
+
+\section{Field Trial}
+An early field trial was conducted with seniors of an assisted living community. To test the initial concept, we used photos of community staff and introduced Portrait Pigeon as a way to send 'thinking-of-you' messages of appreciation to the staff members. [insert something about ppl fearful about trying this new tech] [insert something about poor relative positioning, need for coordinate system, describe coordinate system] [insert something about expectations of voice] and this leads us to believe ...
+
+% =============================================================================
+\section{Conclusion and Future Work}
+% =============================================================================
+This paper presents Portrait Pigeon, a ubiquitous lightweight messaging platform for seniors that leverages existing in-home photo displays. By reducing the effort needed to train an interactive system, we believe Portrait Pigeon will lower the barrier of entry for older adults with cognitive and physical impairments, and low vision to use an interactive photo wall to communicate with family and friends. We believe it has the potential to change the adoption of digital communication platforms (e.g. Facebook, Twitter, and e-mail) because it is embedded into the environment of seniors.  We highlight the ease of customization (body recognition, setup, platform dependency, and feedback) in Portrait Pigeon which is especially important due to the wide range in abilities of older adults. In the future we will expand the system to incorporate reciprocal communication where the people tagged in the portraits can send messages to seniors, explore different communication platforms, and supplement audio feedback with visual feedback.	
+
+\balance
+\bibliographystyle{acm-sigchi}
+\bibliography{sample}
+
+\end{document}
