@@ -160,7 +160,7 @@ void drawSkeleton(int userId)
         handTimer = 0;
         mailSent = false;
       }
-      Contact recipient = new Contact("Moritz Gellner 1","moritzgellner2014@u.northwestern.edu");
+      Contact recipient = new Contact("Donald Reed","Dreed@presbyterianhomes.org");
       
       fill(255, 0, 0);
       rect(40,40,40,40);
@@ -177,7 +177,7 @@ void drawSkeleton(int userId)
         handTimer = 0;
         mailSent = false;
       }
-      Contact recipient = new Contact("Robin Brewer 1","rnbrewer@u.northwestern.edu");
+      Contact recipient = new Contact("Susan Yax","syax@presbyterianhomes.org");
       
     fill(255, 0, 0);
     rect(600,40,40,40);
@@ -192,7 +192,7 @@ void drawSkeleton(int userId)
         handTimer = 0;
         mailSent = false;
       }
-      Contact recipient = new Contact("Robin Brewer 2","robinbrewer10@gmail.com");
+      Contact recipient = new Contact("Pat Fiorio","pfiorio@presbyterianhomes.org");
     fill(255, 0, 0);
     rect(40,400,40,40);
     checkSendMail(recipient);
@@ -206,7 +206,7 @@ void drawSkeleton(int userId)
         handTimer = 0;
         mailSent = false;
       }
-      Contact recipient = new Contact("Moritz Gellner 2","moritz.gellner@gmail.com");
+      Contact recipient = new Contact("Pat Alfredson","palfredson@presbyterianhomes.org");
     fill(255, 0, 0);
     rect(600,400,40,40);
     checkSendMail(recipient);
@@ -221,8 +221,8 @@ void drawSkeleton(int userId)
 void checkSendMail(Contact recipient) {
       if (!mailSent && handTimer > handTimerThreshold) { //make sure mail is only sent once
         mailSent = true;
-        Contact sender = new Contact("Moritz Gellner","moritz.gellner@gmail.com");
-        sendMail(recipient,sender,"Test Message","This is a test!");
+        Contact sender = new Contact("Presbyterian Homes Computer Lab","robinbrewer10@gmail.com");
+        sendMail(recipient,sender,"You received a thank you from the staff appreciation board","I think you're doing a great job. Thank you!\n\n(Sent from the computer lab)");
         handTimer = 0;
       } else {
         handTimer += 1;
