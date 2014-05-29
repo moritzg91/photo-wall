@@ -124,10 +124,16 @@ Through Portrait Pigeon, seniors can send email messages to family and friends. 
 % =============================================================================
 \section{Feedback}
 % =============================================================================
-Audio is played to inform the user that an email message has been sent. For older adults who may have hearing impairments, audio feedback could be supplemented with visual feedback from a small short-range projector facing the photo display \cite{Wilson2010}. [insert something about viewing position of hand w/coordinate system either here or in an above paragraph]
+\begin{figure}
+    \centering
+    \includegraphics[width=0.4\textwidth]{kinect_diag.png}
+    \caption{Inferring hand position using depth sensing}
+\end{figure}
+
+Audio is played to inform the user that an email message has been sent. For older adults who may have hearing impairments, audio feedback could be supplemented with visual feedback from a small short-range projector facing the photo display \cite{Wilson2010}. Using the Kinect's depth sensor, we could approximate the position on the wall that a user is currently pointing at and project a mark onto that spot, so that the user knows which area s/he is currently pointing to (see Fig. ...) This would make the system more interactive and intuitive to use, which is important to engage older adults that are less inclined to experiment with new technology.
 
 \section{Field Trial}
-An early field trial was conducted with seniors of an assisted living community. To test the initial concept, we used photos of community staff and introduced Portrait Pigeon as a way to send 'thinking-of-you' messages of appreciation to the staff members. [insert something about ppl fearful about trying this new tech] [insert something about poor relative positioning, need for coordinate system, describe coordinate system] [insert something about expectations of voice] and this leads us to believe ...
+An early field trial was conducted with seniors of an assisted living community. To test the initial concept, we used photos of community staff and introduced Portrait Pigeon as a way to send 'thinking-of-you' messages of appreciation to the staff members. Initial feedback suggests that the older adults in our test group were hesitant to use a new piece of technology they did not fully understand. We also found that the positioning of the user with respect to the Kinect was an issue, with a sharp decline in hand tracking accuracy if the depth camera was not positioned directly between the photo wall and the user. Lastly, we found that some users expected to be able to record and send an audio message after receiving the audio feedback (which actually indicated that their message was sent.) This is a feature we are planning to incorporate in future releases and test scenarios.
 
 % =============================================================================
 \section{Conclusion and Future Work}
