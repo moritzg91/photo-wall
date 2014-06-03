@@ -30,7 +30,7 @@ Boolean mailSent = false;
 
 Boolean recognizedPointing = false;
 
-Float gKinectDistFromWall = 15*displayWidth/(15); // unit is INCHES
+Float gKinectDistFromWall = 15.0*displayWidth/(12.0); // unit is INCHES
 
 PVector gElbow;
 PVector gHand;
@@ -239,6 +239,10 @@ void drawSkeleton(int userId)
     checkSendMail(recipient);
     previousQuadrant = currentQuadrant;
   } else {
+    // assume people are right handed if no other info is present
+    gElbow = rightEl;
+    gHand = rightHand;
+    
     handTimer = 0;
     currentQuadrant = 0;
     previousQuadrant = 0;
@@ -317,7 +321,7 @@ void onVisibleUser(SimpleOpenNI curContext, int userId)
 
 public class PFrame extends Frame {
     public PFrame() {
-        setBounds(100,100,400,300);
+        setBounds(100,100,displayWidth,displayHeight);
         picoProjectorApplet = new PProjApplet();
         add(picoProjectorApplet);
         picoProjectorApplet.init();
@@ -327,15 +331,20 @@ public class PFrame extends Frame {
 
 public class PProjApplet extends PApplet {
     public void setup() {
-        size(400, 300);
-        noLoop();
+        background(255,255,255);
+        frameRate(30);
+        size(displayWidth, displayHeight);
+        smooth();
     }
 
     public void draw() {
-      if (recognizedPointing) {
-        Float[] handPosn = calcHandPosn(gHand,gElbow,gKinectDistFromWall);
-        
+        background(255,255,255);
+        if (gHand != null) {
+          // Float[] handPosn = calcHandPosn(gHand,gElbow,gKinectDistFromWall);
+          println("HAND POSN: " + gHand.x*displayWidth/640 + ", " + gHand.y*displayHeight/480);
+          fill(0,0,255);
+          ellipse(gHand.x*displayWidth/640,gHand.y*displayHeight/480, 80, 80);
+        }
       }
-    }
 }
 
