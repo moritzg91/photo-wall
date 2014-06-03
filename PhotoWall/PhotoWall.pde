@@ -12,6 +12,7 @@
 import SimpleOpenNI.*;
 import ddf.minim.*;
 import java.lang.*;
+import java.awt.Frame;
 
 SimpleOpenNI  context;
 color[]       userClr = new color[]{ color(255,0,0),
@@ -27,16 +28,26 @@ int origTime = 0; //attempting to use this to determine if the hand is being hel
 
 Boolean mailSent = false;
 
+Boolean recognizedPointing = false;
+
+Float gKinectDistFromWall = 15*displayWidth/(15); // unit is INCHES
+
+PVector gElbow;
+PVector gHand;
+
 Integer handTimer;
 Integer handTimerThreshold = 3*30;
 
 Integer previousQuadrant = 0;
 Integer currentQuadrant = 0;
 
+PFrame f;
+PProjApplet picoProjectorApplet;
+
 void setup()
 {
   size(640,480);
-  
+  PFrame f = new PFrame();
   context = new SimpleOpenNI(this);
   if(context.isInit() == false)
   {
@@ -155,6 +166,10 @@ void drawSkeleton(int userId)
   //recognizing TOP LEFT picture
   if (leftHand.y < leftSh.y || (rightHand.x < torso.x && rightHand.y < leftSh.y))
   {  
+      recognizedPointing = true;
+      gElbow = leftEl;
+      gHand = leftHand;
+    
       currentQuadrant = 1;
       if (currentQuadrant != previousQuadrant) {
         handTimer = 0;
@@ -172,6 +187,10 @@ void drawSkeleton(int userId)
   //recognizing TOP RIGHT picture
   else if (rightHand.y < rightSh.y || (leftHand.x > torso.x && leftHand.y < rightSh.y))
   {
+    recognizedPointing = true;
+    gElbow = rightEl;
+    gHand = rightHand;
+    
     currentQuadrant = 2;
       if (currentQuadrant != previousQuadrant) {
         handTimer = 0;
@@ -187,6 +206,10 @@ void drawSkeleton(int userId)
   //recognizing BOTTOM LEFT picture -- want between bottom of elbow and top of hip
   else if ((leftHand.y < leftHip.y && leftHand.y > leftEl.y) || (rightHand.x < torso.x && rightHand.y < leftHip.y && rightHand.y > leftEl.y))
   {
+    recognizedPointing = true;
+    gElbow = leftEl;
+    gHand = leftHand;
+    
     currentQuadrant = 3;
       if (currentQuadrant != previousQuadrant) {
         handTimer = 0;
@@ -201,6 +224,10 @@ void drawSkeleton(int userId)
   //recognizing BOTTOM RIGHT picture
   else if ((rightHand.y < rightHip.y && rightHand.y > rightEl.y) || (leftHand.x < torso.x && leftHand.y < rightHip.y && leftHand.y > rightEl.y))
   {
+    recognizedPointing = true;
+    gElbow = rightEl;
+    gHand = rightHand;
+    
     currentQuadrant = 4;
       if (currentQuadrant != previousQuadrant) {
         handTimer = 0;
@@ -215,6 +242,7 @@ void drawSkeleton(int userId)
     handTimer = 0;
     currentQuadrant = 0;
     previousQuadrant = 0;
+    recognizedPointing = false;
   }
 }
 
@@ -286,4 +314,28 @@ void onVisibleUser(SimpleOpenNI curContext, int userId)
   // can do all the cleanup it would normally do
  super.stop();
 }*/
+
+public class PFrame extends Frame {
+    public PFrame() {
+        setBounds(100,100,400,300);
+        picoProjectorApplet = new PProjApplet();
+        add(picoProjectorApplet);
+        picoProjectorApplet.init();
+        show();
+    }
+}
+
+public class PProjApplet extends PApplet {
+    public void setup() {
+        size(400, 300);
+        noLoop();
+    }
+
+    public void draw() {
+      if (recognizedPointing) {
+        Float[] handPosn = calcHandPosn(gHand,gElbow,gKinectDistFromWall);
+        
+      }
+    }
+}
 
