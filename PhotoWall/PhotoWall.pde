@@ -174,7 +174,7 @@ void drawSkeleton(int userId)
         handTimer = 0;
         mailSent = false;
       }
-      Contact recipient = new Contact("Donald Reed","Dreed@presbyterianhomes.org");
+      Contact recipient = new Contact("Anne Marie Piper","ampiper@u.northwestern.edu");
       
       fill(255, 0, 0);
       rect(40,40,40,40);
@@ -193,7 +193,7 @@ void drawSkeleton(int userId)
         handTimer = 0;
         mailSent = false;
       }
-      Contact recipient = new Contact("Susan Yax","syax@presbyterianhomes.org");
+      Contact recipient = new Contact("Moritz Gellner","moritzgellner2014@u.northwestern.edu");
       
     fill(255, 0, 0);
     rect(600,40,40,40);
@@ -210,7 +210,7 @@ void drawSkeleton(int userId)
         handTimer = 0;
         mailSent = false;
       }
-      Contact recipient = new Contact("Pat Fiorio","pfiorio@presbyterianhomes.org");
+      Contact recipient = new Contact("Robin Brewer","rnbrewer@u.northwestern.edu");
     fill(255, 0, 0);
     rect(40,400,40,40);
     checkSendMail(recipient);
@@ -226,7 +226,7 @@ void drawSkeleton(int userId)
         handTimer = 0;
         mailSent = false;
       }
-      Contact recipient = new Contact("Pat Alfredson","palfredson@presbyterianhomes.org");
+      Contact recipient = new Contact("Sarah D'Angelo","sarahdangelo92gmail.com");
     fill(255, 0, 0);
     rect(600,400,40,40);
     checkSendMail(recipient);
@@ -246,8 +246,8 @@ void drawSkeleton(int userId)
 void checkSendMail(Contact recipient) {
       if (!mailSent && handTimer > handTimerThreshold) { //make sure mail is only sent once
         mailSent = true;
-        Contact sender = new Contact("Presbyterian Homes Computer Lab","robinbrewer10@gmail.com");
-        sendMail(recipient,sender,"You received a thank you from the staff appreciation board","I think you're doing a great job. Thank you!\n\n(Sent from the computer lab)");
+        Contact sender = new Contact("Portrait Pigeon","robinbrewer10@gmail.com");
+        sendMail(recipient,sender,"You're Awesome","The end of the quarter is approaching. I thought you should know that you're awesome and keep up the great work!\n\n(Robin)");
         handTimer = 0;
       } else {
         handTimer += 1;
