@@ -165,7 +165,7 @@ void drawSkeleton(int userId)
   
   
   //recognizing TOP LEFT picture
-  if (leftHand.y < leftSh.y || (rightHand.x < torso.x && rightHand.y < leftSh.y))
+  if (leftHand.y < leftSh.y + 30 || (rightHand.x < torso.x && rightHand.y < leftSh.y + 30))
   {  
       recognizedPointing = true;
     
@@ -184,7 +184,7 @@ void drawSkeleton(int userId)
       previousQuadrant = currentQuadrant;
   }
   //recognizing TOP RIGHT picture
-  else if (rightHand.y < rightSh.y || (leftHand.x > torso.x && leftHand.y < rightSh.y))
+  else if (rightHand.y < rightSh.y + 40 || (leftHand.x > torso.x && leftHand.y < rightSh.y + 40))
   {
     recognizedPointing = true;
     
