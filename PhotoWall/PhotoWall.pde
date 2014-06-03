@@ -32,9 +32,7 @@ Boolean recognizedPointing = false;
 
 Float gKinectDistFromWall = 15.0*displayWidth/(12.0); // unit is INCHES
 
-PVector gElbow;
-PVector gLeftHand;
-PVector gRightHand;
+PVector gLeftHand, gRightHand, gRightSh, gLeftSh, gTorso, gRightHip, gLeftHip, gRightEl, gLeftEl;
 
 Integer handTimer;
 Integer handTimerThreshold = 3*30;
@@ -165,7 +163,7 @@ void drawSkeleton(int userId)
   
   
   //recognizing TOP LEFT picture
-  if (leftHand.y < leftSh.y || (rightHand.x < torso.x && rightHand.y < leftSh.y))
+  if (leftHand.y < leftSh.y + 40 || (rightHand.x < torso.x && rightHand.y < leftSh.y + 40))
   {  
       recognizedPointing = true;
     
@@ -184,7 +182,7 @@ void drawSkeleton(int userId)
       previousQuadrant = currentQuadrant;
   }
   //recognizing TOP RIGHT picture
-  else if (rightHand.y < rightSh.y || (leftHand.x > torso.x && leftHand.y < rightSh.y))
+  else if (rightHand.y < rightSh.y + 40 || (leftHand.x > torso.x && leftHand.y < rightSh.y + 40))
   {
     recognizedPointing = true;
     
@@ -239,8 +237,16 @@ void drawSkeleton(int userId)
     previousQuadrant = 0;
     recognizedPointing = false;
   }
-  gRightHand = rightHand;
+  
   gLeftHand = leftHand;
+  gRightHand = rightHand;
+  gRightSh = rightSh;
+  gLeftSh = leftSh;
+  gTorso = torso;
+  gRightHip = rightHip;
+  gLeftHip = leftHip;
+  gRightEl = rightEl;
+  gLeftEl = leftEl;
 }
 
 void checkSendMail(Contact recipient) {
@@ -337,9 +343,44 @@ public class PProjApplet extends PApplet {
           println("HAND POSN: " + gLeftHand.x*displayWidth/640 + ", " + gLeftHand.y*displayHeight/480);
           fill(0,0,255);
           ellipse(gLeftHand.x*displayWidth/640,gLeftHand.y*displayHeight/480, 80, 80);
+          // draw translucent rect
+          drawQuadrantRect(currentQuadrant);
+          
           fill(0,255,0);
           ellipse(gRightHand.x*displayWidth/640,gRightHand.y*displayHeight/480, 80, 80);
         }
       }
+      
+    public void drawQuadrantRect(Integer quadrant) {
+  
+      if (quadrant == 1) { // top left
+          if (gRightHand.x < gTorso.x && gRightHand.y < gLeftSh.y + 40) {
+            fill(0,255,0,100);
+          } else {
+            fill(0,0,255,100);
+          }
+        rect(0,0,displayWidth/2,displayHeight/2);
+      } else if (quadrant == 2) { // top right
+          if (gRightHand.y < gRightSh.y + 40) {
+            fill(0,255,0,100);
+          } else {
+            fill(0,0,255,100);
+          }
+        rect(displayWidth/2,0,displayWidth/2,displayHeight/2);
+      } else if (quadrant == 3) { // bottom left 
+          if (gRightHand.x < gTorso.x && gRightHand.y < gLeftHip.y && gRightHand.y > gLeftEl.y) {
+            fill(0,255,0,100);
+          } else {
+            fill(0,0,255,100);
+          }
+        rect(0,displayHeight/2,displayWidth/2,displayHeight/2);
+      } else if (quadrant == 4) { // bottom right
+          if (gRightHand.y < gRightHip.y && gRightHand.y > gRightEl.y) {
+            fill(0,255,0,100);
+          } else {
+            fill(0,0,255,100);
+          }
+        rect(displayWidth/2,displayHeight/2,displayWidth/2,displayHeight/2);
+      }
+} 
 }
-
