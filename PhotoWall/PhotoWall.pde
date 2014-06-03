@@ -33,7 +33,8 @@ Boolean recognizedPointing = false;
 Float gKinectDistFromWall = 15.0*displayWidth/(12.0); // unit is INCHES
 
 PVector gElbow;
-PVector gHand;
+PVector gLeftHand;
+PVector gRightHand;
 
 Integer handTimer;
 Integer handTimerThreshold = 3*30;
@@ -167,8 +168,6 @@ void drawSkeleton(int userId)
   if (leftHand.y < leftSh.y || (rightHand.x < torso.x && rightHand.y < leftSh.y))
   {  
       recognizedPointing = true;
-      gElbow = leftEl;
-      gHand = leftHand;
     
       currentQuadrant = 1;
       if (currentQuadrant != previousQuadrant) {
@@ -188,8 +187,6 @@ void drawSkeleton(int userId)
   else if (rightHand.y < rightSh.y || (leftHand.x > torso.x && leftHand.y < rightSh.y))
   {
     recognizedPointing = true;
-    gElbow = rightEl;
-    gHand = rightHand;
     
     currentQuadrant = 2;
       if (currentQuadrant != previousQuadrant) {
@@ -207,8 +204,6 @@ void drawSkeleton(int userId)
   else if ((leftHand.y < leftHip.y && leftHand.y > leftEl.y) || (rightHand.x < torso.x && rightHand.y < leftHip.y && rightHand.y > leftEl.y))
   {
     recognizedPointing = true;
-    gElbow = leftEl;
-    gHand = leftHand;
     
     currentQuadrant = 3;
       if (currentQuadrant != previousQuadrant) {
@@ -225,8 +220,6 @@ void drawSkeleton(int userId)
   else if ((rightHand.y < rightHip.y && rightHand.y > rightEl.y) || (leftHand.x < torso.x && leftHand.y < rightHip.y && leftHand.y > rightEl.y))
   {
     recognizedPointing = true;
-    gElbow = rightEl;
-    gHand = rightHand;
     
     currentQuadrant = 4;
       if (currentQuadrant != previousQuadrant) {
@@ -240,14 +233,14 @@ void drawSkeleton(int userId)
     previousQuadrant = currentQuadrant;
   } else {
     // assume people are right handed if no other info is present
-    gElbow = rightEl;
-    gHand = rightHand;
     
     handTimer = 0;
     currentQuadrant = 0;
     previousQuadrant = 0;
     recognizedPointing = false;
   }
+  gRightHand = rightHand;
+  gLeftHand = leftHand;
 }
 
 void checkSendMail(Contact recipient) {
@@ -339,11 +332,13 @@ public class PProjApplet extends PApplet {
 
     public void draw() {
         background(255,255,255);
-        if (gHand != null) {
+        if (gLeftHand != null && gRightHand != null) {
           // Float[] handPosn = calcHandPosn(gHand,gElbow,gKinectDistFromWall);
-          println("HAND POSN: " + gHand.x*displayWidth/640 + ", " + gHand.y*displayHeight/480);
+          println("HAND POSN: " + gLeftHand.x*displayWidth/640 + ", " + gLeftHand.y*displayHeight/480);
           fill(0,0,255);
-          ellipse(gHand.x*displayWidth/640,gHand.y*displayHeight/480, 80, 80);
+          ellipse(gLeftHand.x*displayWidth/640,gLeftHand.y*displayHeight/480, 80, 80);
+          fill(0,255,0);
+          ellipse(gRightHand.x*displayWidth/640,gRightHand.y*displayHeight/480, 80, 80);
         }
       }
 }
