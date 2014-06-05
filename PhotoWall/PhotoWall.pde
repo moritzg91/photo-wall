@@ -13,6 +13,9 @@ import SimpleOpenNI.*;
 import ddf.minim.*;
 import java.lang.*;
 import java.awt.Frame;
+import java.util.*;
+
+
 
 SimpleOpenNI  context;
 color[]       userClr = new color[]{ color(255,0,0),
@@ -62,12 +65,15 @@ void setup()
   context.enableUser();
  
   background(200,0,0);
-
+  
   stroke(0,0,255);
   strokeWeight(3);
   smooth();
   
   frameRate(30);
+  
+  setupTwitter();
+  drawTwitter();
   
 }
 
@@ -254,6 +260,18 @@ void checkSendMail(Contact recipient) {
         mailSent = true;
         Contact sender = new Contact("Portrait Pigeon","robinbrewer10@gmail.com");
         sendMail(recipient,sender,"You're Awesome","The end of the quarter is approaching. I thought you should know that you're awesome and keep up the great work!\n\n(Robin)");
+        
+        if (recipient.email == "sarah's email"){
+         tweet("sdangelo"); 
+        } else if (recipient.email == "AMP's email"){
+          tweet("ampiper");
+        } else if (recipient.email == "robin's email"){
+          tweet("_rnbrewer");
+        } else {
+          tweet("moritz");
+        }
+        
+        
         handTimer = 0;
       } else {
         handTimer += 1;
