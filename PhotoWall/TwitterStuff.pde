@@ -8,6 +8,12 @@ import twitter4j.*;
 //import twitter4j.auth.*;
 //import twitter4j.api.*;
 import java.util.*;
+import ddf.minim.*;
+
+Minim t_minim;
+AudioPlayer t_song;
+
+Integer counter = 0;
 
 Twitter twitter;
 String searchString = "#portraitpigeon";
@@ -94,8 +100,13 @@ void tweet(String username)
     int idx = new Random().nextInt(possibleTweets.length);
     String random = (possibleTweets[idx]);
     
-    twitter4j.Status status = twitter.updateStatus("@"+username+" #portraitpigeon "+random);
+    twitter4j.Status status = twitter.updateStatus("@"+username+" #portraitpigeon "+random + ' ' + counter);
+    counter += 1;
     System.out.println("Status updated to["+ status.getText()+ "].");
+    
+    t_minim = new Minim(this);
+    t_song = t_minim.loadFile("ding.mp3");
+    t_song.play();
   } 
   catch (TwitterException te)
   {

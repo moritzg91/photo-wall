@@ -29,6 +29,8 @@ PVector com = new PVector();
 PVector com2d = new PVector(); 
 int origTime = 0; //attempting to use this to determine if the hand is being held for more than 3 seconds in a quadrant
 
+Boolean mailFlag = false;
+
 Boolean mailSent = false;
 
 Boolean recognizedPointing = false;
@@ -230,7 +232,7 @@ void drawSkeleton(int userId)
         handTimer = 0;
         mailSent = false;
       }
-      Contact recipient = new Contact("Sarah D'Angelo","sarahdangelo92gmail.com");
+      Contact recipient = new Contact("Carson Potter","cp3192@gmail.com");
     fill(255, 0, 0);
     rect(600,400,40,40);
     checkSendMail(recipient);
@@ -259,18 +261,21 @@ void checkSendMail(Contact recipient) {
       if (!mailSent && handTimer > handTimerThreshold) { //make sure mail is only sent once
         mailSent = true;
         Contact sender = new Contact("Portrait Pigeon","robinbrewer10@gmail.com");
+        
+        if (mailFlag == true)
+        {
         sendMail(recipient,sender,"You're Awesome","The end of the quarter is approaching. I thought you should know that you're awesome and keep up the great work!\n\n(Robin)");
-        
-        if (recipient.email == "sarah's email"){
-         tweet("sdangelo"); 
-        } else if (recipient.email == "AMP's email"){
-          tweet("ampiper");
-        } else if (recipient.email == "robin's email"){
-          tweet("_rnbrewer");
         } else {
-          tweet("moritz");
+          if (recipient.email == "moritzgellner2014@u.northwestern.edu"){
+            tweet("mogellner"); 
+          } else if (recipient.email == "ampiper@u.northwestern.edu"){
+            tweet("annemarie_piper");
+          } else if (recipient.email == "rnbrewer@u.northwestern.edu"){
+            tweet("_rnbrewer");
+          } else {
+            tweet("cpottamus");
+          }
         }
-        
         
         handTimer = 0;
       } else {
@@ -358,14 +363,14 @@ public class PProjApplet extends PApplet {
         background(255,255,255);
         if (gLeftHand != null && gRightHand != null) {
           // Float[] handPosn = calcHandPosn(gHand,gElbow,gKinectDistFromWall);
-          println("HAND POSN: " + gLeftHand.x*displayWidth/640 + ", " + gLeftHand.y*displayHeight/480);
-          fill(0,0,255);
-          ellipse(gLeftHand.x*displayWidth/640,gLeftHand.y*displayHeight/480, 80, 80);
+          // println("HAND POSN: " + gLeftHand.x*displayWidth/640 + ", " + gLeftHand.y*displayHeight/480);
+          //fill(0,0,255);
+          //ellipse(gLeftHand.x*displayWidth/640,gLeftHand.y*displayHeight/480, 80, 80);
           // draw translucent rect
           drawQuadrantRect(currentQuadrant);
           
-          fill(0,255,0);
-          ellipse(gRightHand.x*displayWidth/640,gRightHand.y*displayHeight/480, 80, 80);
+          //fill(0,255,0);
+          //ellipse(gRightHand.x*displayWidth/640,gRightHand.y*displayHeight/480, 80, 80);
         }
       }
       
