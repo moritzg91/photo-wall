@@ -3,6 +3,7 @@
 % See http://personales.upv.es/luileito/chiext/
 
 \usepackage{wrapfig}
+\usepackage{amsmath}
 
 
 \title{Portrait Pigeon: An Interactive Photo Messaging Wall for Seniors}
@@ -79,7 +80,7 @@ Considerable research has studied online communication for older adults. For som
 % =============================================================================
 \section{Introduction}
 % =============================================================================
-Age-related disability and chronic health conditions make it more difficult for older adults to use computers and go online~\cite{pew:2014}. For some older adults, lack of interest or relevance may deter them staying in touch online~\cite{sundar:2011,Pew2012}. Embedding online interaction in everyday artifacts is a rich area for ubiquitous computing design. This approach stands to support older users who are less familiar with going online while integrating online communication into one's daily routines and living environment. Our work builds on prior research of older adults' values around storing and revisiting non-digital photographs \cite{Swan2008}. Portrait Pigeon allows older adults to interact with physical walls of photos through gesture-based input and, based on relative body movements in front of the photo wall, sends lightweight online messages to the people in the physical photos.
+Age-related disability and chronic health conditions make it more difficult for older adults to use computers and go online~\cite{pew:2014}. For some older adults, lack of interest or relevance may deter them from staying in touch online~\cite{sundar:2011,Pew2012}. Embedding online interaction in everyday artifacts is a rich area for ubiquitous computing design. This approach stands to support older users who are less familiar with going online while integrating online communication into one's daily routines and living environment. Our work builds on prior research of older adults' values around storing and revisiting non-digital photographs \cite{Swan2008}. Portrait Pigeon allows older adults to interact with physical walls of photos through gesture-based input and, based on relative body movements in front of the photo wall, sends lightweight online messages to the people in the physical photos.
 
 Prior work examines the social practices of viewing and sharing physical photographs~\cite{lindley:2009,Swan2008}. Augmenting photo frames is a common approach to designing social experiences for older adults~(e.g., \cite{arreola:2014,mynatt:2001}). We extend this idea to include walls of physical photos, which leverage the semi-permanent nature of these photo displays~\cite{Swan2008}. Portrait Pigeon integrates static physical photos with dynamic online interaction through a flexible and customizable gesture-based interface, enabling a new form of lightweight communication for older adults~\cite{lindley:2012}.
 
@@ -102,6 +103,11 @@ Transforming static walls, tables, and objects into interactive surfaces is ofte
 \section{Portrait Pigeon}
 % =============================================================================
 Portrait Pigeon uses a Microsoft Kinect, the SimpleOpenNI library, and Processing for interacting with physical photos. The Kinect is positioned on the same wall as the photos, facing the user (Figure 1).
+
+\subsection{Implementation}
+We chose to use SimpleOpenNI (which is built on top of the open source OpenNI library maintained by PrimeSense) in combination with Processing due to its cross-platform compatibility and because it presents a more lightweight approach than Microsoft's Kinect libraries, which are written in C\# and rely heavily on the Visual Studio runtime. We implemented two types of messaging: email and twitter. For email communication, the functionality was built mainly on top of Java's built-in mail package (\texttt{javax.mail}), whereas for Twitter we extended the third-party \texttt{twitter4j} library.
+
+To present visual feedback to the user, we created a second applet in our Processing sketch to project a full-screen overlay onto the photo wall using the Pico Projector; the position of each hand as tracked by the Kinect's depth camera was then used to determine active quadrants (a combination of $\{\text{top, bottom}\}, \{\text{left, right}\}$) and those quadrants were then highlighted on the projected overlay. Different colors corresponded to different hands. An audio signal, played through the laptop running Processing, was used to notify the user when a message was sent.
 
 \subsection{Customizing body-based interaction for older adults}
 Gestures are detected as \emph{relative movements} targeted towards quadrants of the photo wall by calculating arm movement relative to the user's torso. For example, if a picture is in the top left quadrant, a gesture is recognized when a hand (right or left) is placed above and to the left of their torso. The relative positioning and recognition of gestures can be customized to an individual's physical abilities. For example, target selection is initially based on hand position relative to the hip or waist for standing individuals, but for people with more limited range of motion or who use a wheelchair, selection can be based on hand movement relative to the torso or shoulder. This customization is particularly important for older adults who have highly diverse physical abilities and could be tailored specifically to users in wheelchairs~\cite{gerling:2013}. 
